@@ -1,18 +1,26 @@
-import { Component } from 'react';
+import React from 'react';
 import {
-  ContactTitle,
   ContactNameList,
-  // ContactNameItem,
-  // ContactNameText,
+  ContactNameItem,
+  ContactNameText,
+  ContactNumberText,
+  ContactListButton,
 } from './ContactList.styled';
 
-export class ContactList extends Component {
-  render() {
-    return (
-      <>
-        <ContactTitle>Contacts</ContactTitle>
-        <ContactNameList></ContactNameList>
-      </>
-    );
-  }
-}
+export const ContactList = ({ contacts, deleteContact }) => {
+  return (
+    <>
+      <ContactNameList>
+        {contacts().map(({ name, number, id }) => (
+          <ContactNameItem key={id}>
+            <ContactNameText>{name}</ContactNameText>
+            <ContactNumberText>{number}</ContactNumberText>
+            <ContactListButton onClick={() => deleteContact(id)}>
+              Delete
+            </ContactListButton>
+          </ContactNameItem>
+        ))}
+      </ContactNameList>
+    </>
+  );
+};

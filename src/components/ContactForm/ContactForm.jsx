@@ -9,25 +9,30 @@ import {
   FormButton,
 } from './ContactForm.styled';
 
+const initialValues = {
+  name: '',
+  number: '',
+};
+
 export class ContactForm extends Component {
   state = {
     name: '',
     number: '',
   };
 
-  handleSubmit = (values, { resetForm }) => {
-    console.log(values);
-    // не заходит в state
-    this.setState({ values });
+  handleSubmit = ({ name, number }, { resetForm }) => {
+    this.props.onSubmit(this.state);
+    this.setState({ name, number });
+    console.log(name);
+
+    // this.setState(prevState => {
+    //   this.props.onSubmit(prevState);
+    // });
+
     resetForm();
   };
 
   render() {
-    const initialValues = {
-      name: '',
-      number: '',
-    };
-
     return (
       <>
         <FormTitle>Phonebook</FormTitle>
