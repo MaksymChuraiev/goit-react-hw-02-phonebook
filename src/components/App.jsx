@@ -29,7 +29,7 @@ export class App extends Component {
   };
 
   getContactsList = () => {
-    const filterValue = this.state.filter.toLowerCase();
+    const filterValue = this.state.filter.toLowerCase().trim();
     const filterContacts = this.state.contacts;
 
     return filterContacts.filter(contact =>

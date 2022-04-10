@@ -1,5 +1,6 @@
 import { Component } from 'react';
 import { Formik } from 'formik';
+import * as Yup from 'yup';
 
 import {
   FormTitle,
@@ -14,6 +15,11 @@ const initialValues = {
   number: '',
 };
 
+const validationSchema = Yup.object({
+  name: Yup.string().required(),
+  number: Yup.string().required(),
+});
+
 export class ContactForm extends Component {
   state = {
     name: '',
@@ -22,6 +28,7 @@ export class ContactForm extends Component {
 
   handleSubmit = ({ name, number }, { resetForm }) => {
     this.props.onSubmit(this.state);
+
     this.setState({ name, number });
     console.log(name);
 
@@ -36,7 +43,11 @@ export class ContactForm extends Component {
     return (
       <>
         <FormTitle>Phonebook</FormTitle>
-        <Formik initialValues={initialValues} onSubmit={this.handleSubmit}>
+        <Formik
+          validationSchema={validationSchema}
+          initialValues={initialValues}
+          onSubmit={this.handleSubmit}
+        >
           <FormThumb>
             <FormLabel>
               Name
