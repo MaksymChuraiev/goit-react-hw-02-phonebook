@@ -1,5 +1,5 @@
-import { Component } from 'react';
-import { Formik } from 'formik';
+// import { Component } from 'react';
+import { Formik, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 
 import {
@@ -8,6 +8,7 @@ import {
   FormLabel,
   FormInput,
   FormButton,
+  FormErrorMessage,
 } from './ContactForm.styled';
 
 const initialValues = {
@@ -16,54 +17,51 @@ const initialValues = {
 };
 
 const validationSchema = Yup.object({
-  name: Yup.string().required(),
+  name: Yup.string()
+    .required()
+    .matches(
+      "^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$",
+      'Name may contain only letters, apostrophe, dash and spaces.'
+    ),
   number: Yup.string().required(),
 });
 
-export class ContactForm extends Component {
-  state = {
-    name: '',
-    number: '',
-  };
+const renderErrorMessage = message => (
+  <FormErrorMessage>{message}</FormErrorMessage>
+);
 
-  handleSubmit = ({ name, number }, { resetForm }) => {
-    this.props.onSubmit(this.state);
-
-    this.setState({ name, number });
-    console.log(name);
-
-    // this.setState(prevState => {
-    //   this.props.onSubmit(prevState);
-    // });
+export const ContactForm = ({ onSubmit }) => {
+  const handleSubmit = (values, { resetForm }) => {
+    onSubmit(values);
 
     resetForm();
   };
 
-  render() {
-    return (
-      <>
-        <FormTitle>Phonebook</FormTitle>
-        <Formik
-          validationSchema={validationSchema}
-          initialValues={initialValues}
-          onSubmit={this.handleSubmit}
-        >
-          <FormThumb>
-            <FormLabel>
-              Name
-              <FormInput name="name" type="text" />
-            </FormLabel>
-            <FormLabel>
-              Number
-              <FormInput name="number" type="tel" />
-            </FormLabel>
-            <FormButton type="submit">Add contact</FormButton>
-          </FormThumb>
-        </Formik>
-      </>
-    );
-  }
-}
+  return (
+    <>
+      <FormTitle>Phonebook</FormTitle>
+      <Formik
+        validationSchema={validationSchema}
+        initialValues={initialValues}
+        onSubmit={handleSubmit}
+      >
+        <FormThumb>
+          <FormLabel>
+            Name
+            <FormInput name="name" type="text" />
+            <ErrorMessage name="name" render={renderErrorMessage} />
+          </FormLabel>
+          <FormLabel>
+            Number
+            <FormInput name="number" type="tel" />
+            <ErrorMessage name="number" render={renderErrorMessage} />
+          </FormLabel>
+          <FormButton type="submit">Add contact</FormButton>
+        </FormThumb>
+      </Formik>
+    </>
+  );
+};
 
 // export class ContactForm extends Component {
 //   state = {

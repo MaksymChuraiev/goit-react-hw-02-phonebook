@@ -1,4 +1,5 @@
-import { Component } from 'react';
+import React, { Component } from 'react';
+import { ContactSection } from './ContactSection/ContactSection.styled';
 import { ContactForm } from './ContactForm/ContactForm';
 import { ContactList } from './ContactList/ContactList';
 import { ContactFilter } from './ContactFilter/ContactFilter';
@@ -23,9 +24,18 @@ export class App extends Component {
       number,
     };
 
-    this.setState(({ contacts }) => ({
-      contacts: [contact, ...contacts],
-    }));
+    this.setState(({ contacts }) => {
+      if (
+        contacts.some(
+          contact => contact.name.toLowerCase() === name.toLowerCase()
+        )
+      ) {
+        return alert(`${name} is already in contacts.`);
+      }
+      return {
+        contacts: [contact, ...contacts],
+      };
+    });
   };
 
   getContactsList = () => {
@@ -48,19 +58,17 @@ export class App extends Component {
   };
 
   render() {
+    const { filter } = this.state;
     return (
-      <>
+      <ContactSection>
         <ContactForm onSubmit={this.addContact} />
         <ContactTitle>Contacts</ContactTitle>
-        <ContactFilter
-          value={this.state.filter}
-          onChange={this.filterContact}
-        />
+        <ContactFilter value={filter} onChange={this.filterContact} />
         <ContactList
           contacts={this.getContactsList}
-          deleteContact={this.deleteContact}
+          onDeleteContact={this.deleteContact}
         ></ContactList>
-      </>
+      </ContactSection>
     );
   }
 }

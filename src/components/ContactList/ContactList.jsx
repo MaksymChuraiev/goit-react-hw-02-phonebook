@@ -1,4 +1,3 @@
-import React from 'react';
 import {
   ContactNameList,
   ContactNameItem,
@@ -6,8 +5,9 @@ import {
   ContactNumberText,
   ContactListButton,
 } from './ContactList.styled';
+import PropTypes from 'prop-types';
 
-export const ContactList = ({ contacts, deleteContact }) => {
+export const ContactList = ({ contacts, onDeleteContact }) => {
   return (
     <>
       <ContactNameList>
@@ -15,7 +15,7 @@ export const ContactList = ({ contacts, deleteContact }) => {
           <ContactNameItem key={id}>
             <ContactNameText>{name}</ContactNameText>
             <ContactNumberText>{number}</ContactNumberText>
-            <ContactListButton onClick={() => deleteContact(id)}>
+            <ContactListButton onClick={() => onDeleteContact(id)}>
               Delete
             </ContactListButton>
           </ContactNameItem>
@@ -23,4 +23,15 @@ export const ContactList = ({ contacts, deleteContact }) => {
       </ContactNameList>
     </>
   );
+};
+
+ContactList.propTypes = {
+  getContactsList: PropTypes.arrayOf(
+    PropTypes.exact({
+      id: PropTypes.string,
+      name: PropTypes.string,
+      number: PropTypes.string,
+    })
+  ),
+  onDeleteContact: PropTypes.func,
 };
