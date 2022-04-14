@@ -24,18 +24,32 @@ export class App extends Component {
       number,
     };
 
-    this.setState(({ contacts }) => {
-      if (
-        contacts.some(
-          contact => contact.name.toLowerCase() === name.toLowerCase()
-        )
-      ) {
-        return alert(`${name} is already in contacts.`);
-      }
-      return {
-        contacts: [contact, ...contacts],
-      };
-    });
+    const contacts = this.state.contacts;
+
+    if (
+      contacts.some(
+        contact => contact.name.toLowerCase() === name.toLowerCase()
+      )
+    ) {
+      return alert(`${name} is already in contacts.`);
+    }
+
+    this.setState(({ contacts }) => ({
+      contacts: [contact, ...contacts],
+    }));
+
+    //   this.setState(({ contacts }) => {
+    //     if (
+    //       contacts.some(
+    //         contact => contact.name.toLowerCase() === name.toLowerCase()
+    //       )
+    //     ) {
+    //       return alert(`${name} is already in contacts.`);
+    //     }
+    //     return {
+    //       contacts: [contact, ...contacts],
+    //     };
+    //   });
   };
 
   getContactsList = () => {

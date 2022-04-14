@@ -1,7 +1,7 @@
 // import { Component } from 'react';
 import { Formik, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
-
+import PropTypes from 'prop-types';
 import {
   FormTitle,
   FormThumb,
@@ -61,6 +61,10 @@ export const ContactForm = ({ onSubmit }) => {
       </Formik>
     </>
   );
+};
+
+ContactForm.propTypes = {
+  onSubmit: PropTypes.func.isRequired,
 };
 
 // export class ContactForm extends Component {
